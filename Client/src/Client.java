@@ -18,7 +18,7 @@ public class Client {
             e.printStackTrace();
         }
 
-        //Send a small phonebook --- Uncomment to send large phonebooks
+        //Send a small phonebook --- Uncomment to send larger phonebooks
         sendFile(client, uri, "SmallPhonebook.xml");
         //sendFile(client, uri, "MediumPhonebook.xml");
         //sendFile(client, uri, "LargePhonebook.xml");
@@ -55,9 +55,8 @@ public class Client {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .build();
-        HttpResponse<String> response;
         try{
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch(IOException e) {
             throw new Exception();
         }
