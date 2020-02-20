@@ -4,23 +4,26 @@ import org.json.JSONObject;
 import java.util.Comparator;
 
 public class JSONCompare implements Comparator<JSONObject> {
-    String compareField;
+    private String nameKey;
 
-    public JSONCompare(String compareField) {
-        this.compareField = compareField;
+    public JSONCompare(String nameKey) {
+        this.nameKey = nameKey;
     }
 
+    //We only compare names, considering that most phone contact systems don't allow you to add contacts with the same name
+    //This may be expanded, to make sure that duplication also depends on number as well
     @Override
     public int compare(JSONObject o1, JSONObject o2) {
-        String o1Name = "";
-        String o2Name = "";
+        int nameComparison = 0;
+
         try {
-            o1Name = o1.getString(compareField);
-            o2Name = o2.getString(compareField);
-        }catch (JSONException jsonException) {
-            System.out.println("Failed Comparison");
+            //Compare to see if the names are the same
+            nameComparison = (o1.getString(nameKey).toUpperCase().compareTo(o2.getString(nameKey).toUpperCase()));
+
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return o1Name.compareTo(o2Name);
+        return nameComparison;
     }
 }

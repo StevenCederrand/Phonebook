@@ -7,24 +7,37 @@ import java.net.http.HttpResponse;
 import org.json.*;
 
 public class Client {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String uri = "http://localhost:8000/phonebook";
         HttpClient client = HttpClient.newHttpClient();
 
         //Simple get to check to see if we have a connection
-        if(!get(client, uri)) {
-            throw new IOException("No Connection");
+        try {
+            get(client, uri);
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
-        JSONObject xmlPhonebook = XML.toJSONObject(readXML());
-        JSONArray contacts = xmlPhonebook.getJSONObject("PHONEBOOK").getJSONArray("CONTACT");
+        //Send a small phonebook
+        sendFile(client, uri, "SmallPhonebook.xml");
+        sendFile(client, uri, "MediumPhonebook.xml");
+    sendFile(client, uri, "LargePhonebook.xml");
+        System.out.println("Done");
+    }
+
+    public static void sendFile(HttpClient client, String uri, String fileName) {
         try {
-            for (int i = 0; i < contacts.length(); i++) {
-                JSONObject contactDsc = contacts.getJSONObject(i);
-                System.out.println(contactDsc.toString());
-                post(client, uri, contactDsc);
+            JSONObject xmlPhonebook = XML.toJSONObject(readXML("LargePhonebook.xml"));
+            JSONArray contacts = xmlPhonebook.getJSONObject("PHONEBOOK").getJSONArray("CONTACT");
+            try {
+                for (int i = 0; i < contacts.length(); i++) {
+                    JSONObject contactDsc = contacts.getJSONObject(i);
+                    post(client, uri, contactDsc);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | InterruptedException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -39,25 +52,21 @@ public class Client {
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public static boolean get(HttpClient client, String uri) {
+    public static void get(HttpClient client, String uri) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .build();
         HttpResponse<String> response;
         try{
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.toString());
-        } catch(IOException | InterruptedException ioExcep) {
-            System.out.print("client send");
-            return false;
+        } catch(IOException e) {
+            throw new Exception();
         }
-
-        return true;
     }
 
     //Read XML file
-    public static String readXML() throws IOException {
-        File xmlFile = new File("src/Phonebook.xml");
+    public static String readXML(String fileName) throws IOException {
+        File xmlFile = new File("src/" + fileName);
         Reader fileReader = new FileReader(xmlFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         StringBuilder stringBuild = new StringBuilder();

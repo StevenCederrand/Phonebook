@@ -20,19 +20,25 @@ def indent(elem, level=0):
             elem.tail = j
     return elem
 
-root = ET.Element("PHONEBOOK")
-for x in range(0, 10):
-    #Generate a random name
-    doc = ET.SubElement(root, "CONTACT")
-    ET.SubElement(doc, "NAME").text = names.get_full_name()
-    #Generate a random number
-    number = random.randrange(100000000, 999999999)
-    ET.SubElement(doc, "WORK_NUM").text = str(number)
-    #Generate a random number
-    number = random.randrange(100000000, 999999999)
-    ET.SubElement(doc, "HOME_NUM").text = str(number)
-    pass
+def createPhonebook(size, name):
 
-indent(root)
-tree = ET.ElementTree(root)
-tree.write("../rsc/Phonebook.xml")
+    root = ET.Element("PHONEBOOK")
+    for x in range(0, size):
+        #Generate a random name
+        doc = ET.SubElement(root, "CONTACT")
+        ET.SubElement(doc, "NAME").text = names.get_full_name()
+        #Generate a random number
+        number = random.randrange(100000000, 999999999)
+        ET.SubElement(doc, "WORK_NUM").text = str(number)
+        #Generate a random number
+        number = random.randrange(100000000, 999999999)
+        ET.SubElement(doc, "HOME_NUM").text = str(number)
+        pass
+
+    indent(root)
+    tree = ET.ElementTree(root)
+    tree.write("../rsc/" + name + ".xml")
+
+createPhonebook(10, "SmallPhonebook")
+createPhonebook(100, "MediumPhonebook")
+createPhonebook(1000, "LargePhonebook")
