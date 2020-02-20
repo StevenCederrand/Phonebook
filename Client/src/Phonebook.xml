@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PHONEBOOK>
     <CONTACT>
+        <NAME>Flying With Stars</NAME>
+        <WORK_NUM>864410888</WORK_NUM>
+        <HOME_NUM>107275666</HOME_NUM>
+    </CONTACT>
+    <CONTACT>
         <NAME>Robert Tesoro</NAME>
         <WORK_NUM>225520545</WORK_NUM>
         <HOME_NUM>107275918</HOME_NUM>
