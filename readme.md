@@ -7,4 +7,5 @@ The systems assumes the following: <br>
 * The client uses the server site to view all of his clients
 * That all of the contacts have unique names
 * You have to change the path in the .java file if you want to send a custom .xml file<br>
+
 For future work, the client should be able to upload the .xml file on the website, have it re-formatted. Be able to add or remove contacts. Then even be able to download the new json formatted phone book. 
