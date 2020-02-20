@@ -6,3 +6,4 @@ The systems assumes the following: <br>
 * The formatting of the xml file
 * The client uses the server site to view all of his clients
 * That all of the contacts have unique names
+* You have to change the path in the .java file if you want to send a custom .xml file
