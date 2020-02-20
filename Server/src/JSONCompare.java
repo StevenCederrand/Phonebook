@@ -15,11 +15,12 @@ public class JSONCompare implements Comparator<JSONObject> {
     @Override
     public int compare(JSONObject o1, JSONObject o2) {
         int nameComparison = 0;
+        int homeComparison = 0;
 
         try {
             //Compare to see if the names are the same
             nameComparison = (o1.getString(nameKey).toUpperCase().compareTo(o2.getString(nameKey).toUpperCase()));
-
+            //homeComparison = (o1.getInt("HOME_NUM") - o2.getInt("HOME_NUM"));
         }catch (JSONException e) {
             e.printStackTrace();
         }

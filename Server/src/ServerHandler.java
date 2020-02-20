@@ -6,9 +6,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.TreeSet;
 
 public class ServerHandler implements HttpHandler {
+    //Contacts are placed in a tree set structure.
+    //This solves the issue of data duplicates, but also will sort the list in alphabetical order
     private TreeSet<JSONObject> contacts;
 
     public ServerHandler() {
@@ -26,12 +29,13 @@ public class ServerHandler implements HttpHandler {
 
             char[] buffer = new char[256];
             int read;
-
+            //Read data from the input stream and append it to our data string
             while ((read = reader.read(buffer)) > 0) {
                 data.append(buffer, 0, read);
             }
 
             try {
+                //Create a json object from the incoming data
                 contact = new JSONObject(data.toString());
                 contacts.add(contact);
             } catch(JSONException e) {
@@ -45,6 +49,7 @@ public class ServerHandler implements HttpHandler {
     private void htmlBuilder(HttpExchange httpExchange) throws IOException {
         //Build our HTML
         String param = "<h1>PHONE BOOK</h1>";
+        //Format into an HTML table
         param += "<table> <tr> <th>Name</th><th>Work Number</th><th>Home Number</th></tr>";
         for (JSONObject var : contacts) {
             param += "<tr><td>" + var.get("NAME") + "</td><td>" + var.get("WORK_NUM") + "</td><td>" + var.get("HOME_NUM") + "</td></tr>";
