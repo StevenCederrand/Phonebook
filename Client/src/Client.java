@@ -18,16 +18,15 @@ public class Client {
             e.printStackTrace();
         }
 
-        //Send a small phonebook
+        //Send a small phonebook --- Uncomment to send large phonebooks
         sendFile(client, uri, "SmallPhonebook.xml");
-        sendFile(client, uri, "MediumPhonebook.xml");
-    sendFile(client, uri, "LargePhonebook.xml");
-        System.out.println("Done");
+        //sendFile(client, uri, "MediumPhonebook.xml");
+        //sendFile(client, uri, "LargePhonebook.xml");
     }
 
     public static void sendFile(HttpClient client, String uri, String fileName) {
         try {
-            JSONObject xmlPhonebook = XML.toJSONObject(readXML("LargePhonebook.xml"));
+            JSONObject xmlPhonebook = XML.toJSONObject(readXML(fileName));
             JSONArray contacts = xmlPhonebook.getJSONObject("PHONEBOOK").getJSONArray("CONTACT");
             try {
                 for (int i = 0; i < contacts.length(); i++) {
